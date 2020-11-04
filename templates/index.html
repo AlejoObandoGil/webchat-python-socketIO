@@ -1,17 +1,17 @@
-{% from 'form_helper.html' import displayField %}
-{% extends "prelogin-layout.html" %}
+{% from 'formulario.html' import displayField %}
+{% extends "prelogin.html" %}
 
-{% block title %}Register {% endblock title%}
+{% block title %}Registro{% endblock title%}
 
 {% block content %}
-        <h2>Get started!</h2>
+        <h2>Registro Usuario</h2>
         <form action="{{ url_for('index') }}", method="POST">
-            {{ displayField(form.username, 'Username', autocomplete="off", autofocus=true) }}
-            {{ displayField(form.password, 'Password') }}
-            {{ displayField(form.confirm_pswd, 'Retype Password') }}
+            {{ displayField(form.usuario, 'Usuario', autocomplete="off", autofocus=true) }}
+            {{ displayField(form.contraseña, 'Contraseña') }}
+            {{ displayField(form.confirmar_contraseña, 'Confirmar_Contraseña') }}
 
         <div>
-          {{ form.submit_button}}
+          {{ form.boton_registro}}
         </div>
         
 
