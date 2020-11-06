@@ -6,9 +6,12 @@
 {% block content %}
         <h2>Registro Usuario</h2>
         <form action="{{ url_for('index') }}", method="POST">
+            {{ displayField(form.nombre, 'nombre') }}
+            {{ displayField(form.apellido, 'apellido') }}
             {{ displayField(form.usuario, 'Usuario', autocomplete="off", autofocus=true) }}
             {{ displayField(form.contraseña, 'Contraseña') }}
-            {{ displayField(form.confirmar_contraseña, 'Confirmar_Contraseña') }}
+            {{ displayField(form.edad, 'Edad') }}
+            {{ displayField(form.genero, 'Género') }}
 
         <div>
           {{ form.boton_registro}}
