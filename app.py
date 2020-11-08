@@ -2,7 +2,7 @@ from flask import Flask, request, render_template, session
 from flask_sqlalchemy import SQLAlchemy
 
 from wtform_registro import *
-#from modelos import *
+from modelos import *
 
 app = Flask(__name__)
 app.secret_key = 'replace later'
@@ -11,19 +11,6 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://odzwjrzlprudil:8317735ed8c24
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False  
 
 db = SQLAlchemy(app)
-
-class User(db.Model):
-
-    __tablename__ = 'usuarios'
-    id = db.Column(db.Integer, primary_key=True)
-    usuario = db.Column(db.String(25), unique=True, nullable=False)
-    contrasena = db.Column(db.String(25), nullable=False)
-    nombre = db.Column(db.String(30), nullable=False)
-    apellido = db.Column(db.String(30), nullable=False)
-    edad = db.Column(db.String(2), nullable=False)
-    genero = db.Column(db.String(1), nullable=False)
-
-db.create_all() 
 
 @app.route("/", methods=['GET', 'POST'])
 def index():
@@ -38,17 +25,12 @@ def index():
         edad = reg_form.edad.data
         genero = reg_form.genero.data
 
-        user_object = User.query.filter_by(usuario=usuario).first()
-        if user_object:
-            return "Ya se encuentra en uso este nombre de usuario"  
-
         with app.app_context():     
             user = User(nombre=nombre, apellido=apellido, usuario=usuario, contrasena=contrasena, edad=edad, genero=genero)                  
             db.create_all() 
             db.session.add(user)
             db.session.commit()
             
-
         return "Ingresado en la base de datos"
 
     return render_template("index.html", form=reg_form)

@@ -1,8 +1,10 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField
-from wtforms.validators import InputRequired, Length, EqualTo
+from wtforms.validators import InputRequired, Length, EqualTo, ValidationError
+from modelos import User
 
 class Registro(FlaskForm):
+    '''Registratio form'''
 
     usuario = StringField('usuario_label',
         validators=[InputRequired(message="Escribe un nombre de usuario"),
@@ -32,4 +34,10 @@ class Registro(FlaskForm):
         Length(min=0 , max=1, message="Escribe (F) para femenino y (M) para masculino ")])     
 
     boton_registro = SubmitField('Registrarse')
+
+    def validate_usuario(self, usuario):
+        user_object = User.query.filter_by(usuario=usuario.data).first()
+        if user_object:
+            raise ValidationError("El usuario ya existe. Elige otro nombre de usuario")
+
   
