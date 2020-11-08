@@ -3,8 +3,20 @@ from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import InputRequired, Length, EqualTo, ValidationError
 from modelos import User
 
+def invalid_credentials(formulario, archivo):
+
+    validar_usuario = formulario.usuario.data
+    validar_contrasena = archivo.data
+
+    user_object = User.query.filter_by(usuario=validar_usuario).first()
+    if user_object is None:
+        raise ValidationError("¡El usuario que usted ha ingresado no existe!")
+    elif validar_contrasena != user_object.contrasena:
+        raise ValidationError("¡La contraseña que usted ha ingresado es incorrecta o no existe!")
+
+
+
 class Registro(FlaskForm):
-    '''Registratio form'''
 
     usuario = StringField('usuario_label',
         validators=[InputRequired(message="Escribe un nombre de usuario"),
@@ -40,4 +52,16 @@ class Registro(FlaskForm):
         if user_object:
             raise ValidationError("El usuario ya existe. Elige otro nombre de usuario")
 
-  
+
+class InicioSesion(FlaskForm):
+
+    usuario = StringField('usuario_label',
+        validators=[InputRequired(message='Escribe un usuario')])
+    contrasena = PasswordField('contrasena_label',
+        validators=[InputRequired(message='Escribe una contraseña'),
+        invalid_credentials])
+
+    boton_inicio_sesion = SubmitField('Iniciar sesion')    
+    
+
+

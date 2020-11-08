@@ -1,0 +1,19 @@
+{% from 'formulario.html' import displayField %}
+{% extends 'prelogin.html' %}
+
+{% block title %}Inicio de Sesión ChatpyApp{% endblock %}
+
+{% block content %}
+        <h2>Inicio de Sesión</h2>
+        <form action="{{ url_for('login') }}", method="POST">
+            {{ displayField(form.usuario, 'Usuario', autocomplete="off", autofocus=true) }}
+            {{ displayField(form.contrasena, 'Contraseña') }}
+        <div>
+          {{ form.boton_inicio_sesion}}
+        </div>
+        
+        {{ form.csrf_token }}
+
+    </form>
+
+{% endblock %}
