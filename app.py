@@ -1,6 +1,7 @@
 from flask import Flask, request, render_template, session, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 from passlib.hash import pbkdf2_sha256
+from flask_login import LoginManager, login_user, current_user, login_required, logout_user
 
 from wtform_registro import *
 from modelos import *
@@ -12,6 +13,17 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://odzwjrzlprudil:8317735ed8c24
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False  
 
 db = SQLAlchemy(app)
+
+login = LoginManager(app)
+login.init_app(app)
+
+@login.user_loader
+def load_user(id):
+
+    #User.query.filter_by(id=id).first()
+    return User.query.get(int(id))
+
+
 
 @app.route("/", methods=['GET', 'POST'])
 def index():
@@ -44,9 +56,28 @@ def login():
 
     login_form = InicioSesion()
     if login_form.validate_on_submit():
-        return "¡Nuevo inicio de sesion. Ahora estas conectado!"
+        user_object = User.query.filter_by(usuario=login_form.usuario.data).first()
+        login_user(user_object)
+
+        return redirect(url_for('chat'))
 
     return render_template("login.html", form=login_form)
+
+
+@app.route("/chat", methods=['GET', 'POST'])
+def chat():
+
+    if not current_user.is_authenticated:
+        return "¡Por favor inicia sesion para acceder al chat!"
+
+    return "Escribe en el chat o crea una nueva sala"
+
+
+@app.route("/logout", methods=['GET'])
+def logout():
+
+    logout_user()
+    return "Has cerrado sesión!"
 
 
 if __name__ == "__main__":

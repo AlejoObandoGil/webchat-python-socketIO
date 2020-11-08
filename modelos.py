@@ -1,9 +1,10 @@
 from flask import Flask, request, session
 from flask_sqlalchemy import SQLAlchemy
+from flask_login import UserMixin
 
 db = SQLAlchemy()
 
-class User(db.Model):
+class User(UserMixin, db.Model):
 
     __tablename__ = 'usuarios2'
     id = db.Column(db.Integer, primary_key=True)
