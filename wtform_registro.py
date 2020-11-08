@@ -1,6 +1,8 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import InputRequired, Length, EqualTo, ValidationError
+from passlib.hash import pbkdf2_sha256
+
 from modelos import User
 
 def invalid_credentials(formulario, archivo):
@@ -10,9 +12,9 @@ def invalid_credentials(formulario, archivo):
 
     user_object = User.query.filter_by(usuario=validar_usuario).first()
     if user_object is None:
-        raise ValidationError("¡El usuario que usted ha ingresado no existe!")
-    elif validar_contrasena != user_object.contrasena:
-        raise ValidationError("¡La contraseña que usted ha ingresado es incorrecta o no existe!")
+        raise ValidationError("¡El usuario que has ingresado es incorrecto no existe!")
+    elif not pbkdf2_sha256.verify(validar_contrasena, user_object.contrasena):
+        raise ValidationError("¡La contraseña que has ingresado es incorrecta o no existe!")
 
 
 

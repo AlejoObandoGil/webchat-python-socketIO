@@ -9,7 +9,7 @@ engine = create_engine(SQLALCHEMY_DATABASE_URI)
 conn = engine.connect()
 
 query = """
-SELECT * FROM usergjspro;
+SELECT * FROM usuarios;
 """
 
 df = pd.read_sql(query, conn)

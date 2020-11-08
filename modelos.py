@@ -5,10 +5,10 @@ db = SQLAlchemy()
 
 class User(db.Model):
 
-    __tablename__ = 'usuarios'
+    __tablename__ = 'usuarios2'
     id = db.Column(db.Integer, primary_key=True)
     usuario = db.Column(db.String(25), unique=True, nullable=False)
-    contrasena = db.Column(db.String(25), nullable=False)
+    contrasena = db.Column(db.String(), nullable=False)
     nombre = db.Column(db.String(30), nullable=False)
     apellido = db.Column(db.String(30), nullable=False)
     edad = db.Column(db.String(2), nullable=False)

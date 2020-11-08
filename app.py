@@ -1,5 +1,6 @@
 from flask import Flask, request, render_template, session, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
+from passlib.hash import pbkdf2_sha256
 
 from wtform_registro import *
 from modelos import *
@@ -25,8 +26,11 @@ def index():
         edad = reg_form.edad.data
         genero = reg_form.genero.data
 
+        #pbkdf2_sha256.using(round=1000, salt_size=8).hash(contrasena)
+        contrasena_hash = pbkdf2_sha256.hash(contrasena)
+
         with app.app_context():     
-            user = User(nombre=nombre, apellido=apellido, usuario=usuario, contrasena=contrasena, edad=edad, genero=genero)                  
+            user = User(nombre=nombre, apellido=apellido, usuario=usuario, contrasena=contrasena_hash, edad=edad, genero=genero)                  
             db.create_all() 
             db.session.add(user)
             db.session.commit()
