@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template, session, redirect, url_for
+from flask import Flask, request, render_template, session, redirect, url_for, flash
 from flask_sqlalchemy import SQLAlchemy
 from passlib.hash import pbkdf2_sha256
 from flask_login import LoginManager, login_user, current_user, login_required, logout_user
@@ -24,7 +24,6 @@ def load_user(id):
     return User.query.get(int(id))
 
 
-
 @app.route("/", methods=['GET', 'POST'])
 def index():
 
@@ -46,10 +45,14 @@ def index():
             db.create_all() 
             db.session.add(user)
             db.session.commit()
-            
+
+        flash("¡Registro exitoso, ahora puedes iniciar sesion!", "success")    
+
+
         return redirect(url_for('login'))
 
     return render_template("index.html", form=reg_form)
+
 
 @app.route("/login", methods=['GET', 'POST'])
 def login():
@@ -68,7 +71,8 @@ def login():
 def chat():
 
     if not current_user.is_authenticated:
-        return "¡Por favor inicia sesion para acceder al chat!"
+        flash("Por favor inicia sesion para acceder a ChatpyApp", )
+        return redirect(url_for('login'))
 
     return "Escribe en el chat o crea una nueva sala"
 
@@ -77,7 +81,8 @@ def chat():
 def logout():
 
     logout_user()
-    return "Has cerrado sesión!"
+    flash("¡Has cerrado la sesion!")
+    return redirect(url_for('login'))
 
 
 if __name__ == "__main__":
