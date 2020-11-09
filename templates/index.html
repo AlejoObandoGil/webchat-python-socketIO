@@ -4,23 +4,26 @@
 {% block title %}Registro ChatpyApp{% endblock title%}
 
 {% block content %}
-        <h2>Registro Usuario</h2>
-        <form action="{{ url_for('index') }}", method="POST">
-            {{ displayField(form.usuario, 'Usuario', autocomplete="off", autofocus=true) }}
-            {{ displayField(form.contrasena, 'Contraseña') }}
-            {{ displayField(form.confirmar_contrasena, 'Confirmar contraseña') }}
-            {{ displayField(form.nombre, 'Nombre') }}
-            {{ displayField(form.apellido, 'Apellido') }}
-            {{ displayField(form.edad, 'Edad') }}
-            {{ displayField(form.genero, 'Género') }}
 
-        <div>
-          {{ form.boton_registro}}
-        </div>
-        
+<h2>Registro de Usuario</h2>
+<form action="{{ url_for('index') }}" , method="POST">
 
-        {{ form.csrf_token }}
+  {{ displayField(form.usuario, 'Usuario', autocomplete="off", autofocus=true)}}
+  {{ displayField(form.contrasena, 'Contraseña') }}
+  {{ displayField(form.confirmar_contrasena, 'Confirmar contraseña') }}
+  {{ displayField(form.nombre, 'Nombre') }}
+  {{ displayField(form.apellido, 'Apellido') }}
+  {{ displayField(form.edad, 'Edad') }}
+  {{ displayField(form.genero, 'Género') }}
 
-    </form>
+  <div>
+
+    {{ form.boton_registro}}
+
+  </div>
+
+  {{ form.csrf_token }}
+
+</form>
 
 {% endblock %}

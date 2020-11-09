@@ -1,18 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}{% endblock %} - Chat </title>
 </head>
+
 <body>
 
     {% with messages = get_flashed_messages(with_categories=true) %}
-    
+
         {% if messages %}
 
             Category: {{ messages [0][0] }}
-            
+
             {{ messages [0] [1] }}
 
         {% endif %}
@@ -22,4 +24,5 @@
 
     {% endblock %}
 </body>
+
 </html>

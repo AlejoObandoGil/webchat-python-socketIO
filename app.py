@@ -1,7 +1,7 @@
-from flask import Flask, request, render_template, session, redirect, url_for, flash
+from flask import Flask, render_template, request, session, url_for, redirect, flash
 from flask_sqlalchemy import SQLAlchemy
 from passlib.hash import pbkdf2_sha256
-from flask_login import LoginManager, login_user, current_user, login_required, logout_user
+from flask_login import LoginManager, login_user, logout_user, login_required, current_user 
 
 from wtform_registro import *
 from modelos import *
@@ -10,17 +10,18 @@ app = Flask(__name__)
 app.secret_key = 'replace later'
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://odzwjrzlprudil:8317735ed8c2403e044449e353a227dbc9ca3a0afc17ba794f37cfc40420558d@ec2-54-161-150-170.compute-1.amazonaws.com:5432/d57q5bus76ls43'
-app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False  
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 db = SQLAlchemy(app)
 
 login = LoginManager(app)
 login.init_app(app)
 
+
 @login.user_loader
 def load_user(id):
 
-    #User.query.filter_by(id=id).first()
+    # User.query.filter_by(id=id).first()
     return User.query.get(int(id))
 
 
@@ -40,14 +41,14 @@ def index():
         #pbkdf2_sha256.using(round=1000, salt_size=8).hash(contrasena)
         contrasena_hash = pbkdf2_sha256.hash(contrasena)
 
-        with app.app_context():     
-            user = User(nombre=nombre, apellido=apellido, usuario=usuario, contrasena=contrasena_hash, edad=edad, genero=genero)                  
-            db.create_all() 
+        with app.app_context():
+            user = User(nombre=nombre, apellido=apellido, usuario=usuario,
+                        contrasena=contrasena_hash, edad=edad, genero=genero)
+            db.create_all()
             db.session.add(user)
             db.session.commit()
 
-        flash("¡Registro exitoso, ahora puedes iniciar sesion!", "success")    
-
+        flash("¡Te has registrado en ChatpyApp, ahora puedes iniciar sesion!", "success")
 
         return redirect(url_for('login'))
 
@@ -59,7 +60,8 @@ def login():
 
     login_form = InicioSesion()
     if login_form.validate_on_submit():
-        user_object = User.query.filter_by(usuario=login_form.usuario.data).first()
+        user_object = User.query.filter_by(
+            usuario=login_form.usuario.data).first()
         login_user(user_object)
 
         return redirect(url_for('chat'))
