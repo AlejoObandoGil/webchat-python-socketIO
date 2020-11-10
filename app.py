@@ -25,11 +25,11 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 # inicializar en BD
 db = SQLAlchemy(app)
-print("Conexion a BD habilitada -> heroku-postgres ")
+print("\n-Conexion a BD habilitada -> heroku-postgres ")
 
 # inicializar de websockets
 socketio = SocketIO(app)
-print("websockets habilitados")
+print("-websockets habilitados \n")
 
 # inicializar controlador de sesion con la libreria de flask login
 login = LoginManager(app)
@@ -76,7 +76,7 @@ def index():
             db.session.commit()
         # Si hay exito imprime en la pagina y redirige a login
         flash("¡Te has registrado en TerTuliApp, ahora puedes iniciar sesion!", "success")
-        print(" Usuario registrado en la BD")
+        print("-Usuario registrado en la BD \n")
 
         return redirect(url_for('login'))
     
@@ -89,28 +89,35 @@ def index():
 def login():
 
     login_form = InicioSesion()
+    # Validamos el formulario que digitamos 
     if login_form.validate_on_submit():
         user_object = User.query.filter_by(
             usuario=login_form.usuario.data).first()
         login_user(user_object)
 
+        # Si hay exito imprime en la pagina y redirige al chat
         flash("¡Bienvenido a TertuliApp. Escribe en el chat o crea una nueva sala!", "success")
+        print("-Nuevo inicio de sesion de usuario \n")
+        
         return redirect(url_for('chat'))
 
+    # Si no hay exito regresa a la pagina de login
     return render_template("login.html", form=login_form)
 
 
+# Ruta de chat para chat.html
 @app.route("/chat", methods=['GET', 'POST'])
 def chat():
 
+    # El usuario debe estar autenticado en la sesion para tener acceso al chat
     #if not current_user.is_authenticated:
         #flash("Por favor inicia sesion para acceder a TerTuliApp", )
         #return redirect(url_for('login'))
 
     return render_template('chat.html') 
-    #"Escribe en el chat o crea una nueva sala"
+    
 
-
+# Ruta para cerrar sesion redirige al incio
 @app.route("/logout", methods=['GET'])
 def logout():
 
@@ -119,6 +126,7 @@ def logout():
     return redirect(url_for('login'))
 
 
+# Ruta para enviar los mensajes con Socketio
 @socketio.on('message')
 def message(data):
 
@@ -132,6 +140,6 @@ def message(data):
 if __name__ == "__main__":
 
     db.init_app(app)
+    print("----El servidor esta conectado...\n")
     socketio.run(app, debug=True)
-    print("El servidor esta conectado...")
     #app.run(debug=True)
