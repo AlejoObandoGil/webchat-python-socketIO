@@ -1,3 +1,5 @@
+# Codigo para hacer consultas sql a BD con SQLalchemy y ayuda de pandas
+
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import create_engine
 import pandas as pd
