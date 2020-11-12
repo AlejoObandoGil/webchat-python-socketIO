@@ -1,6 +1,6 @@
 # Codigo que controla la logica de validacion de formularios de registros y de incio de sesion
 
-# ---------------LIBRERIAS---------------
+# ----------------------------- LIBRERIAS---------------------------------------
 
 # principales: formularios de flask, validaciones y logica del formulario con wtform, cifrado hash
 from flask_wtf import FlaskForm
@@ -10,6 +10,8 @@ from passlib.hash import pbkdf2_sha256
 
 # secundarias:
 from modelos import User
+
+# ------------------------CONTROLADOR DE USUARIO--------------------------------
 
 # Funcion que se encarga de validar el inicio de sesion de usuario
 def invalid_credentials(formulario, archivo):
@@ -22,7 +24,7 @@ def invalid_credentials(formulario, archivo):
     if user_object is None:
         raise ValidationError("¡El usuario que has ingresado no existe!")
 
-    # Si existe pasa al elif y valida si la contraseña no es correcta
+    # Si existe pasa al elif y valida si la contraseña no es correcta y descifra la contraseña hash
     elif not pbkdf2_sha256.verify(validar_contrasena, user_object.contrasena):
         raise ValidationError(
             "¡La contraseña que has ingresado es incorrecta!")

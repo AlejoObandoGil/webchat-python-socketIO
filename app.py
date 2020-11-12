@@ -1,42 +1,43 @@
 # Aplicacion principal que hace el trabajo del servidor 
 
-# ---------------LIBRERIAS---------------
+# ------------------------------LIBRERIAS---------------------------------------
 
 # Principales: webApp, BD, cifrado hash, login de flask, websockets
 from flask import Flask, render_template, request, session, url_for, redirect, flash
 from flask_sqlalchemy import SQLAlchemy
 from passlib.hash import pbkdf2_sha256
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
-from flask_socketio import SocketIO, send
+from flask_socketio import SocketIO, send, emit
+from time import strftime, localtime, gmtime
 
 # Secundarias: 
 from wtform_registro import *
 from modelos import *
 
 
-# ---------------Inicializacion del servidor---------------
+# -------------------------Inicializacion del servidor--------------------------
 
 app = Flask(__name__)
 app.secret_key = 'replace later'
 
-# Direccion de BD postgres almacenado en heroku
+# Direccion de BD: postgres de heroku
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://odzwjrzlprudil:8317735ed8c2403e044449e353a227dbc9ca3a0afc17ba794f37cfc40420558d@ec2-54-161-150-170.compute-1.amazonaws.com:5432/d57q5bus76ls43'
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
-# inicializar en BD
+# inicializar BD 
 db = SQLAlchemy(app)
 print("\n-Conexion a BD habilitada -> heroku-postgres ")
 
-# inicializar de websockets
+# inicializar websockets
 socketio = SocketIO(app)
 print("-websockets habilitados \n")
 
-# inicializar controlador de sesion con la libreria de flask login
+# inicializar controlador de sesion 
 login = LoginManager(app)
 login.init_app(app)
 
 
-# ---------------Rutas y controladores---------------
+# ---------------------------Rutas y controladores------------------------------
 
 @login.user_loader
 def load_user(id):
@@ -114,7 +115,7 @@ def chat():
         #flash("Por favor inicia sesion para acceder a TerTuliApp", )
         #return redirect(url_for('login'))
 
-    return render_template('chat.html') 
+    return render_template('chat.html', usuario=current_user.usuario) 
     
 
 # Ruta para cerrar sesion redirige al incio
@@ -132,7 +133,8 @@ def message(data):
 
     print(f"\n\n{data}\n\n")
 
-    send(data)
+    send({'msg': data['msg'], 'usuario': data['usuario'], 'time_stamp': strftime('%b-%d %I:%M%p', localtime())})
+
 
 
 # ---------------PRINCIPAL-------------------

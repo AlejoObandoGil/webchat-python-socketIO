@@ -17,8 +17,6 @@ class User(UserMixin, db.Model):
     edad = db.Column(db.String(2), nullable=False)
     genero = db.Column(db.String(1), nullable=False)        
 
-    print("BD creada con exito")
-
 
 '''
 CREATE TABLE usuarios( id SERIAL PRIMARY KEY, usuario VARCHAR(25) UNIQUE NOT NULL, contraseña TEXT NOT NULL, nombre VARCHAR(30) NOT NULL, apellido VARCHAR(30) NOT NULL, edad VARCHAR(2) NOT NULL, genero VARCHAR(1) NOT NULL);
