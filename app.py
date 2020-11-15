@@ -1,13 +1,13 @@
 # Aplicacion principal que hace el trabajo del servidor 
 
-# ------------------------------LIBRERIAS---------------------------------------
+# --------------------------------LIBRERIAS---------------------------------------
 
 # Principales: webApp, BD, cifrado hash, login de flask, websockets
 from flask import Flask, render_template, request, session, url_for, redirect, flash
 from flask_sqlalchemy import SQLAlchemy
 from passlib.hash import pbkdf2_sha256
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
-from flask_socketio import SocketIO, send, emit
+from flask_socketio import SocketIO, send, emit, join_room, leave_room
 from time import strftime, localtime, gmtime
 
 # Secundarias: 
@@ -15,7 +15,7 @@ from wtform_registro import *
 from modelos import *
 
 
-# -------------------------Inicializacion del servidor--------------------------
+# ------------------------INICIALIZACION DEL SERVIDOR---------------------------
 
 app = Flask(__name__)
 app.secret_key = 'replace later'
@@ -31,13 +31,14 @@ print("\n-Conexion a BD habilitada -> heroku-postgres ")
 # inicializar websockets
 socketio = SocketIO(app)
 print("-websockets habilitados \n")
+ROOMS = ["Principal", "Sistemas", "Amigos", "Interno"]
 
 # inicializar controlador de sesion 
 login = LoginManager(app)
 login.init_app(app)
 
 
-# ---------------------------Rutas y controladores------------------------------
+# ----------------------RUTAS Y FUNCIONES DEL SERVIDOR--------------------------
 
 @login.user_loader
 def load_user(id):
@@ -115,7 +116,7 @@ def chat():
         #flash("Por favor inicia sesion para acceder a TerTuliApp", )
         #return redirect(url_for('login'))
 
-    return render_template('chat.html', usuario=current_user.usuario) 
+    return render_template('chat.html', usuario=current_user.usuario, rooms=ROOMS) 
     
 
 # Ruta para cerrar sesion redirige al incio
@@ -130,11 +131,18 @@ def logout():
 # Ruta para enviar los mensajes con Socketio
 @socketio.on('message')
 def message(data):
+    print(f"\n\n {data}\n\n")
+    send({'msg': data['msg'], 'usuario': data ['usuario'], 'time_stamp': strftime('%b-%d %I:%M%p', localtime())}, room=data['room'])
 
-    print(f"\n\n{data}\n\n")
+@socketio.on('join')
+def join(data):
+    join_room(data['room']) 
+    send({'msg': data['usuario'] + "Te has unido a la " + data['room'] + " sala."}, room=data['room'])   
 
-    send({'msg': data['msg'], 'usuario': data['usuario'], 'time_stamp': strftime('%b-%d %I:%M%p', localtime())})
-
+@socketio.on('leave')
+def leave(data):
+    leave_room(data['room'])
+    send({'msg': data['usuario'] + "Ha salido de la " + data['room'] + " sala."}, room=data['room'])   
 
 
 # ---------------PRINCIPAL-------------------
