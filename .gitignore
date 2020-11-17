@@ -1,6 +1,7 @@
 env/
 __pycache__/
 flask_session/
-borradores.py
+borradores.python
 borrador.html
 Proyecto chat con python.docx
+

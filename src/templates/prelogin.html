@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>{% block title %}{% endblock %} - TerTulia</title>
+
+        <!-- Bootstrap -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+        <!-- CSS  -->
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/formulario.css') }}">
+    </head>
+    <body>
+        <!-- seccion principal -->
+        <div class="main-section">
+
+            <div class="panel-superior">
+              <h1 class="titulo">TertuliApp</h1>
+              <center><p class="subtitulo">Inicia sesión y comienza a hablar!</p></center>
+              <hr>
+            </div>
+
+            <!-- espacio para imagenes-->
+            <div id="image-section">
+                <picture>
+                    <img class="card">
+                </picture>
+            </div> 
+
+
+            <!-- Panel derecho-->
+            <div id="panel-derecho">
+
+                <!-- Mensajes -->
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    <!-- Si hay mensajes se devuelven como una lista. Y no todas las redenciones de las páginas tendrán un mensaje. Entonces ponemos una condición para verificar si la lista de mensajes está vacía-->
+                    {% if messages %}
+                        <!-- Estableceremos la clase desde nuestro archivo css personalizado que habíamos creado anteriormente. Y queremos ver el primer elemento de la lista. -->
+                        <div class="alert alert-{{ messages[0][0] }} " role="alert">
+                            {{ messages[0][1] }}
+                        </div>
+                        <hr>
+                    {% endif %}
+                {% endwith %}
+
+                {% block content%}
+                {% endblock %}
+
+            </div>
+ 
+        </div>
+
+    </body>
+</html>

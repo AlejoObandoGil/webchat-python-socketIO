@@ -4,8 +4,9 @@ from flask_login import UserMixin
 
 db = SQLAlchemy()
 
- # Modelos para BD de datos con SQLAlchemy 
- # Este modelo creara una tabla en esta ocasion para heroku-postgres
+#modelos para BD con SQLAlchemy
+#este modelo crea la tabla en heroku-postgres
+
 class User(UserMixin, db.Model):
 
     __tablename__ = 'usuarios2'
@@ -15,7 +16,8 @@ class User(UserMixin, db.Model):
     nombre = db.Column(db.String(30), nullable=False)
     apellido = db.Column(db.String(30), nullable=False)
     edad = db.Column(db.String(2), nullable=False)
-    genero = db.Column(db.String(1), nullable=False)        
+    genero = db.Column(db.String(1), nullable=False)
+    
 
 
 '''
