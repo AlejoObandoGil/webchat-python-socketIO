@@ -1,3 +1,4 @@
+<!-- {% from 'formulario.html' import displayField %} -->
 <!DOCTYPE html>
 <html lang="en">
 
@@ -15,59 +16,61 @@
     </head>
 
     <body>
-       
+       <!-- Background (Fondo) -->
         <div class="wrapper">
             <!-- Barra menu principal -->
-            <nav class="navbar navbar-expand-sm navbar-light fixed-top" style="background-color: rgb(193, 240, 212)">
-
+            <nav class="navbar navbar-expand-sm navbar-light fixed-top" style="background-color: rgb(37, 211, 102)">
+              
+                <!-- Titulo -->
                 <div class="container-fluid">
-
                     <h1>Chat TertuliApp</h1>
-
+                <!-- Barra titulo y fondo -->
                     <div id="show-sidebar-button" class="cursor-pointer">
                         <i class="fas fa-plus-circle "></i>
-
                     </div>
-
-                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                    </button>
-                    
-                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                        <ul class="navbar-nav ml-auto">
-                            <li class="nav-item">
-                                <a id="logout-btn" class="nav-link" href="{{ url_for('logout') }}"><span style="color: #077748">Cerrar Sesión</span></a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
+                    <!-- Boton cerrar sesion -->
+                    <a href="{{ url_for('cerrar_sesion') }}" class="btn btn-info btn-lg">
+                        <span class="glyphicon glyphicon-log-out"></span> Cerrar Sesión
+                    </a>
+                </div>    
             </nav>
+
+            <!-- Barra menu principal (sala y crear sala) -->
         <div id="main-section">
             <nav id="sidebar">
+                <!-- titulo crear sala -->
                 <h2>Crear sala</h2>
-                <div id="input-nueva-sala">
-                    <input type="text" id="nueva_sala" placeholder="Nombre de la sala..." autocomplete="off">
-                </div>
-                <div>
-                    <button type="button" class="btn btn-secondary" id="crear_sala" >Crear sala</button>
-                </div>
-                <div>
-                     <button type="button" class="btn btn-secondary" id="eliminar_sala" >Eliminar sala</button>
-                </div>
-                <h2>Salas</h2>
+                
+                <form action="", method="POST">
+                    <!-- caja de texto para crear nueva sala -->
+                    <input type="text" id="nueva-sala" class = "form-control input-sm" name="nueva-sala" placeholder="Escribe el nombre de la sala..."/><br>
+        
+                    <div>
+                        <input type="submit" id="crear-sala" name="crear-sala" value="Crear sala" />
+                    </div>
+                    <div>
+                        <button type="button" class="btn btn-outline-success" id="eliminar-sala" >Eliminar sala</button>
+                    </div>
+                </form>
+                
+                <!-- Mostrar salas y sala pricipal -->
+                <h2>Salas disponibles</h2>
                 {% for room in rooms %}
-                    <p class="select-room">{{ room|title}}</p>
+                    <p class="seleccionar-sala">{{ room|title}}</p>
                 {% endfor %}    
             </nav>
 
-
+           <!-- Panel de mensajes  -->
             <div id="rightside-pannel">
-                <div id="display-message-section">
-
+                <!-- Mostrar mensajes -->
+                <div id="mostrar-mensajes">
+                     
                 </div>
-                <div id="input-area">
-                    <input type="text" id="user_message" placeholder="Escribe aquí" autocomplete="off">
-                    <button type="button" class="btn btn-outline-success" id="send_message" >Enviar</button>
+
+                <!-- Barra para escribir mensaje y boton de enviar mensaje -->
+                <div id="input-area" class = "input-group mb-3">
+                    <input type="text" class = "form-control input-sm" id="nuevo-mensaje" placeholder="Escribe aquí" autocomplete="off">
+                    <button type="button" class="btn btn-outline-success" id="enviar-mensaje" >Enviar</button>
                 </div>
             </div>
         </div>
@@ -77,12 +80,12 @@
         <script type="text/javascript">
             const usuario = `{{usuario}}`;
         </script>
-
-        <script src="{{ url_for('static', filename='scripts/chat_page.js')}}"></script>
-
+   
+        <!-- Permite mostrar mensajes en tiempo real -->
         <script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"
             integrity="sha256-yr4fRk/GU1ehYJPAs8P4JlTgu0Hdsp4ZKrx8bDEDC3I=" crossorigin="anonymous"></script>
 
+        <!-- conexion con el cliente js -->
         <script src="{{ url_for('static', filename='scripts/socketio.js')}}">
         </script>
 

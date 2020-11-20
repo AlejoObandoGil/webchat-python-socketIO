@@ -1,40 +1,43 @@
 h1 {
-  color: #078d4aab;
+  color: #ffffff;
 }
 h2{
   color: #24d88dab;
 }
-h4{
+/* h4{
   color: #24d88dab;
-  margin-top: 80px;
+  margin-top: 80px; 
 
-}
+}*/
 .wrapper {
   display: flex;
 }
 
 #main-section {
-  overflow: hidden; /* Makee this div contain its floated children */
+  overflow: hidden; 
   width: 100%;
+  
 }
 
 #sidebar {
-  margin-top: 2em;
-  float: left; /* Make this div as wide as its contents */
-  min-height: 96vh;
+  background-color: #fffffff6;
+  margin-top: 3em;
+  float: left; 
+  min-height: 94vh;
+  min-width: 52vh;
   padding-left: 1em;
-  padding-top: 3em;
+  padding-top: 2.5em;
   padding-right:1em;
-  border-right: 0.5px solid #898c91;
+  border-right: 0.001px solid #b2b4b3;
 }
 
 #sidebar p {
-  padding-left: 2em;
+  padding-left: 3em;
   padding-right:2em;
 }
 
 #sidebar p:hover {
-  background-color: #8efa8e;
+  background-color: #24d88dab;
 }
 
 #sidebar h4 {padding-left: 0.5em;}
@@ -71,19 +74,32 @@ h4{
 
 #rightside-pannel {
   overflow: hidden; /* Make this div take up the rest of the horizontal space, and no more */
+  background-color: #fafafaf6;
+  margin-top: -1em;
 }
 
-#display-message-section {
+#mostrar-mensajes {
+  background-image: url("/static/img/fondo_chat.jpg");
   margin-top: 5em;
   min-height: 82vh;
   max-height: 82vh;
-  overflow-y: auto; /*Make  this section scrolable */
+  overflow-y: auto; /*Make  this section scrolable */  ;
+
+}
+
+#mostrar-mensajes p{
+  margin-left: 40px;
+  margin-right: 10px;
+  margin-top: 20px;
+  background-color: #ffffff;
 }
 
 #input-area {
   padding-left: 1em;
   padding-right: 1em;
   bottom: 0;
+  margin-top: 5px;
+ 
 }
 
 #input-nueva-sala{
@@ -92,7 +108,7 @@ h4{
   bottom: 0;
 }
 
-#crear_sala{
+#crear-sala{
   margin-left: 30px;
   margin-right: 10px;
   margin-top:8px;
@@ -100,7 +116,7 @@ h4{
   padding-right: 3.1em;
   bottom: 0;
 }
-#eliminar_sala{
+#eliminar-sala{
   margin-left: 30px;
   margin-right: 10px;
   margin-top: 8px;
@@ -111,77 +127,12 @@ h4{
 
 
 input[type=text]:focus{
-  border-color: #03e63c;
-  box-shadow: 0px 1px 1px rgb(187, 241, 174) inset, 0px 0px 10px #aeff9e;
+  border-color: #24d88dab;
+  box-shadow: 0px 1px 1px rgb(33, 179, 98) inset, 0px 0px 10px #24d88dab;
 }
 
 
 @keyframes fadeIn {
 0% {opacity: 0;}
 100% {opacity: 1;}
-}
-
-.others-msg {
-  margin-right:7em;
-  margin-left: 1em;
-  padding: 0.5em 0.5em 0.5em 1em;
-  border-radius: 5px;
-  border-color: grey;
-  border-width: 0.5px;
-  border-style: solid;
-  background-color: #C2DBFB;
-  /* animation */
-  animation-name: fadeIn;
-  animation-duration: 0.75s;
-  animation-fill-mode: forwards;
-  animation-timing-function: ease-in-out;
-}
-
-.my-msg {
-  margin-left:7em;
-  margin-right:1em;
-  padding: 0.5em 0.5em 0.5em 1em;
-  border-radius: 5px;
-  border-color: #206ED2;
-  border-width: 1px;
-  border-style: solid;
-  /* animation */
-  animation-name: fadeIn;
-  animation-duration: 0.75s;
-  animation-fill-mode: forwards;
-  animation-timing-function: ease-in-out;
-}
-
-.system-msg {
-  margin-right:7em;
-  margin-left: 1em;
-  padding: 0.5em 0.5em 0.5em 1em;
-  color: #656d78;
-  font-size:0.9em;
-}
-
-.timestamp {
-  color: #656d78;
-  font-size:0.7em;
-}
-
-.other-username {
-  font-weight: bold;
-  font-size: 1.1em;
-  color: #206ED2;
-}
-
-.my-username {
-  font-weight: bold;
-  font-size: 1.1em;
-  color: #FF6B13;
-}
-
-#msg-input {
-  border-color: #81df85;
-  border-width: 5px;
-}
-
-#get-username {
-  display: none !important;
 }

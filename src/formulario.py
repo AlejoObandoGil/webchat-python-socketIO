@@ -78,3 +78,11 @@ class InicioSesion(FlaskForm):
          invalid_credentials])
 
     boton_inicio = SubmitField('Iniciar Sesión')         
+
+
+# class NuevaSala(FlaskForm):
+
+#     nueva_sala = StringField ('sala_label',
+#          validators=[InputRequired(message="Escribe el nombre de la sala")])   
+
+#     boton_crear_sala = SubmitField('Crear sala')       

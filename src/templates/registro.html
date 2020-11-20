@@ -4,24 +4,27 @@
 {% block title %}Registro de usuario{% endblock title%}
 
 {% block content %}
-        <center><h2>Registro de Usuario</h2> </center>
-        <form action="{{ url_for('registro') }}", method="POST">
-          <th>
-            {{ displayField(form.usuario, 'Usuario', autocomplete="off", autofocus=true) }}
-            {{ displayField(form.contrasena, 'Contraseña') }}
-            {{ displayField(form.confirmar_contrasena, 'Confirmar contraseña') }}
-            {{ displayField(form.nombre, 'Nombre') }}
-            {{ displayField(form.apellido, 'Apellido') }}
-            {{ displayField(form.edad, 'Edad') }}
-            {{ displayField(form.genero, 'Género') }}
-          </th>
-        <hr>
-        <div>
-          {{ form.boton_registro}} <a href={{url_for('index')}}>Inicia Sesión</a>
-        </div>
+<center>
+  <h2>Registro de Usuario</h2>
+</center>
+<form action="{{ url_for('registro') }}" , method="POST">
+  <th>
+    {{ form.hidden_tag() }}
+    {{ displayField(form.usuario, 'Usuario', autocomplete="off", autofocus=true) }}
+    {{ displayField(form.contrasena, 'Contraseña') }}
+    {{ displayField(form.confirmar_contrasena, 'Confirmar contraseña') }}
+    {{ displayField(form.nombre, 'Nombre') }}
+    {{ displayField(form.apellido, 'Apellido') }}
+    {{ displayField(form.edad, 'Edad') }}
+    {{ displayField(form.genero, 'Género') }}
+  </th>
+  <hr>
+  <div>
+    {{ form.boton_registro}} <a href={{url_for('index')}}>Inicia Sesión</a>
+  </div>
 
-        {{ form.csrf_token }}
+  {{ form.csrf_token }}
 
-    </form>
-    <hr>
+</form>
+<hr>
 {% endblock %}

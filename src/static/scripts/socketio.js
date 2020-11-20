@@ -2,42 +2,42 @@
 
 // --------------------INICIALIZACION DEL CLIENTE-------------------------------
 
-// Iniciando conexion socket
+// Iniciando conexion 
 document.addEventListener('DOMContentLoaded', () => {
     var socket = io();
 
     // sala principal como default
-    let room = ("Principal");
+    let sala = ("Principal");
     joinRoom("Principal");
 
     // Probando los sockets
     socket.on ('connect', ()=>{
-        socket.send("cliente websocket a full");
+        socket.send("cliente websocket conectado...");
     });
 
 // -----------------------CONTROL DE MENSAJES-------------------------------    
 
     // lee y envia mensajes desde el cliente al servidor
-    document.querySelector('#send_message').onclick = () => {
-        socket.send({'msg': document.querySelector('#user_message').value, 'usuario': usuario, 'room': room });
+    document.querySelector('#enviar-mensaje').onclick = () => {
+        socket.send({'msg': document.querySelector('#nuevo-mensaje').value, 'usuario': usuario, 'room': sala });
 
-        document.querySelector('#user_message').value = '';
+        document.querySelector('#nuevo-mensaje').value = '';
     };
 
     // Recibe y envia mensajes desde el servidor a todos los clientes
     socket.on('message', data => {
         const p = document.createElement('p');
-        const span_username = document.createElement('span');
+        const span_usuario = document.createElement('span');
         const span_timestamp = document.createElement('span');
         const br = document.createElement('br');
 
         if (data.usuario){
-            span_username.innerHTML = data.usuario;
+            span_usuario.innerHTML = data.usuario;
             span_timestamp.innerHTML=data.time_stamp;
-            p.innerHTML = span_username.outerHTML + br.outerHTML + data.msg + br.outerHTML + span_timestamp.outerHTML;
-            document.querySelector('#display-message-section').append(p); 
+            p.innerHTML = span_usuario.outerHTML + br.outerHTML + data.msg + br.outerHTML + span_timestamp.outerHTML;
+            document.querySelector('#mostrar-mensajes').append(p); 
         } else {
-            printSysMsg(data.msg);
+            printMsg(data.msg);
         }
          
     });
@@ -45,38 +45,38 @@ document.addEventListener('DOMContentLoaded', () => {
 // ------------------CONTROL DE SALAS DE CHAT-----------------------------------
 
     // Seleccionar una sala
-    document.querySelectorAll('.select-room').forEach(p=> {
+    document.querySelectorAll('.seleccionar-sala').forEach(p=> {
         p.onclick = () => {
-            let newRoom = p.innerHTML;
-            if (newRoom == room){
-                msg = `Ya estas en la sala ${room}.`
+            let nuevaSala = p.innerHTML;
+            if (nuevaSala == sala){
+                msg = `Ya estas en la sala ${sala}.`
                 printSysMsg(msg);
             } else {
-                leaveRoom(room);
-                joinRoom(newRoom);
-                room=newRoom;
+                leaveRoom(sala);
+                joinRoom(nuevaSala);
+                sala=nuevaSala;
             }
         }
     });
 
     // Funcion para salir de un sala
-    function leaveRoom(room){
-        socket.emit('leave', {'usuario': usuario, 'room': room});
+    function leaveRoom(sala){
+        socket.emit('leave', {'usuario': usuario, 'room': sala});
     }
 
     // Funcion para entrar a una sala
-    function joinRoom(room){
-        socket.emit('join', {'usuario': usuario, 'room': room});
+    function joinRoom(sala){
+        socket.emit('join', {'usuario': usuario, 'room': sala});
         //borrar mensaje de pantalla
-        document.querySelector('#display-message-section').innerHTML = ''
+        document.querySelector('#mostrar-mensajes').innerHTML = ''
         //autocus en caja de texto del chat
-        document.querySelector('#user_message').focus();
+        document.querySelector('#nuevo-mensaje').focus();
     }
 
     // Funcion imprimir para todos los usuarios
-    function printSysMsg(msg){
+    function printMsg(msg){
         const p = document.createElement('p');
         p.innerHTML = msg;
-        document.querySelector('#display-message-section').append(p);
+        document.querySelector('#mostrar-mensajes').append(p);
     }
 })
