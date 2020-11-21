@@ -8,7 +8,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, login_user, current_user, login_required, logout_user
 from passlib.hash import pbkdf2_sha256
 from flask_socketio import SocketIO, send, emit, join_room, leave_room
-from time import strftime, gmtime
+from time import strftime, localtime
 
 # secundarias:
 from modelos import *
@@ -37,7 +37,7 @@ login = LoginManager(app)
 login.init_app(app)
 
 #lista donde almacenaremos las salas creadas, por defecto el servidor incia con 1 sola sala
-LISTA_SALAS =["Principal"]
+LISTA_SALAS = ["Principal", "1", "2"]
 
 # ----------------------RUTAS DE LOGIN DEL SERVIDOR--------------------------
 
@@ -59,7 +59,7 @@ def index():
             usuario=inicioForm.usuario.data).first()
         login_user(obj_usuario)
         #mensaje instantaneo en pantalla
-        flash("¡Bienvenido a TertuliApp. Inicia sesion o registrate para empezar a hablar!", "success")
+        flash("¡Bienvenido a TertuliApp. Inicia sesión o regístrate para empezar a hablar!", "success")
         # Si hay exito redirige al chat
         return redirect(url_for('chat'))
         
@@ -97,7 +97,7 @@ def registro():
             db.session.add(user)
             db.session.commit()
         # Si hay exito imprime en la pagina y redirige a login
-        flash("¡Te has registrado en TerTuliApp, ahora puedes iniciar sesion!", "success")
+        flash("¡Te has registrado en TerTuliApp, ahora puedes iniciar sesión!", "success")
        
         return redirect(url_for('index'))
     # Si no hay exito regresa a la pagina de registro
@@ -116,19 +116,33 @@ def cerrar_sesion():
 @app.route("/chat", methods=['GET', 'POST'])
 def chat(): 
     nuevaSala = ""
+    # inicioForm = InicioSesion()
+    # #login_form = forms.LoginForm(request.form)
+    # username = inicioForm.usuario.data
+    # mensaje_flash = 'Bienvenido {}'.format(username)
+    # flash(mensaje_flash)
 
     # metodo POST para validar la creacion de la nueva salida
     if request.method == 'POST':
-        nuevaSala = request.form['nueva-sala']
+        nuevaSala = request.form['nueva_sala']
+        
+        if nuevaSala in LISTA_SALAS:
+            flash("¡La sala ya existe, elige otro nombre", "success") 
+        else:
+            print("\nSala creada:", nuevaSala, "\n") 
+            LISTA_SALAS.append(nuevaSala)     
 
-        #return redirect(url_for('chat'))
-        print(nuevaSala) 
-        LISTA_SALAS.append(nuevaSala) 
-        # nuevaSala = ""  
+    eliminarSala = EliminarSala()
+    sala = eliminarSala.input_eliminar_sala.data
+    if sala in LISTA_SALAS:
+        if sala != LISTA_SALAS[0]:
+            print("Sala eliminada: ", sala)
+            LISTA_SALAS.remove(sala)
 
-        # next = request.args.get('next', None)
-        # if next:
-        #     return redirect(next)
+    user = User.query.all()
+	#print (user.usuario)  
+
+    #User.query.count()
 
     # El usuario debe estar autenticado en la sesion para tener acceso al chat
     if not current_user.is_authenticated:
@@ -136,26 +150,26 @@ def chat():
         return redirect(url_for('index'))
   
     # Siempre redirige a la cuenta del mismo usuario si la sesion esta abierta
-    return render_template('chat.html', usuario=current_user.usuario, rooms=LISTA_SALAS)
-
+    return render_template('chat.html', usuario=current_user.usuario, rooms=LISTA_SALAS, form=eliminarSala, user=user)
+ # form=eliminarSala
 
 # ---------------------RUTAS WEBSOCKETS DEL SERVIDOR-------------------------
 
-# Ruta socket que se comunica con el cliente y recibe y manda el mensaje
+# Ruta socket que se comunica con el cliente javascript, recibe y manda el mensaje
 @socketio.on('message')
 def message(data):
     print(f"\n\n {data}\n\n")
-    send({'msg': data['msg'], 'usuario': data ['usuario'], 'time_stamp': strftime("%a, %d %b %Y - %H:%M:%S", gmtime())}, room=data['room'])
+    send({'msg': data['msg'], 'usuario': data ['usuario'], 'time_stamp': strftime("%a, %d %b %Y - %I:%M:%S %p", localtime())}, room=data['room'])
 
 
-# Ruta socket que se comunica con el cliente cada vez que un nuevo cliente ingresa a una sala 
+# Ruta socket que se comunica con el cliente javascript cada vez que un nuevo cliente ingresa a una sala 
 @socketio.on('join')
 def join(data):
     join_room(data['room']) 
     send({'msg': data['usuario'] + "  Se ha unido a la sala  " + data['room'] + "."}, room=data['room'])   
 
 
-# Ruta socket que se comunica con el cliente cada vez que un nuevo cliente sale de una sala 
+# Ruta socket que se comunica con el cliente javascript cada vez que un nuevo cliente sale de una sala 
 @socketio.on('leave')
 def leave(data):    
     leave_room(data['room'])

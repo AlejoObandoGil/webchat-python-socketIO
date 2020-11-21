@@ -80,9 +80,8 @@ class InicioSesion(FlaskForm):
     boton_inicio = SubmitField('Iniciar Sesión')         
 
 
-# class NuevaSala(FlaskForm):
+class EliminarSala(FlaskForm):
 
-#     nueva_sala = StringField ('sala_label',
-#          validators=[InputRequired(message="Escribe el nombre de la sala")])   
+    input_eliminar_sala = StringField ('sala_label')   
 
-#     boton_crear_sala = SubmitField('Crear sala')       
+    boton_eliminar_sala = SubmitField('Eliminar sala')       

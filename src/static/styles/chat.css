@@ -2,7 +2,7 @@ h1 {
   color: #ffffff;
 }
 h2{
-  color: #24d88dab;
+  color: #32d8b4;
 }
 /* h4{
   color: #24d88dab;
@@ -37,7 +37,7 @@ h2{
 }
 
 #sidebar p:hover {
-  background-color: #24d88dab;
+  background-color: #32d8b4;
 }
 
 #sidebar h4 {padding-left: 0.5em;}
@@ -111,7 +111,7 @@ h2{
 #crear-sala{
   margin-left: 30px;
   margin-right: 10px;
-  margin-top:8px;
+  margin-top:-8px;
   padding-left: 2em;
   padding-right: 3.1em;
   bottom: 0;
@@ -123,12 +123,13 @@ h2{
   padding-left: 2em;
   padding-right: 2em;
   bottom: 0;
+  margin-bottom: 30px;
 }
 
 
 input[type=text]:focus{
-  border-color: #24d88dab;
-  box-shadow: 0px 1px 1px rgb(33, 179, 98) inset, 0px 0px 10px #24d88dab;
+  border-color: #32d8b4;
+  box-shadow: 0px 1px 1px rgb(33, 179, 98) inset, 0px 0px 10px #32d8b4;
 }
 
 

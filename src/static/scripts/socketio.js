@@ -1,6 +1,6 @@
-//Cliente jquery: encargado de la conexion websocket con el servidor python 
+//Cliente javascript: encargado de la conexion websocket con el servidor python 
 
-// --------------------INICIALIZACION DEL CLIENTE-------------------------------
+// --------------------CONFIGURACION DEL CLIENTE-------------------------------
 
 // Iniciando conexion 
 document.addEventListener('DOMContentLoaded', () => {
