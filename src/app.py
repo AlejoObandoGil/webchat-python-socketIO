@@ -41,13 +41,6 @@ LISTA_SALAS = ["Principal", "1", "2"]
 
 # ----------------------RUTAS DE LOGIN DEL SERVIDOR--------------------------
 
-
-#ruta que recarga el cliente actual conectado
-@login.user_loader
-def cargar_usuario(id):
-    return User.query.get(int(id))
-
-
 # ruta principal para index.html
 @app.route("/", methods=['GET', 'POST'])
 def index():
@@ -104,6 +97,12 @@ def registro():
     return render_template("registro.html", form=registroForm)
 
 
+#ruta que recarga el cliente actual conectado
+@login.user_loader
+def cargar_usuario(id):
+    return User.query.get(int(id))
+
+
  # Ruta para cerrar sesion 
 @app.route("/cerrar_sesion", methods=['GET'])
 def cerrar_sesion():
@@ -116,11 +115,6 @@ def cerrar_sesion():
 @app.route("/chat", methods=['GET', 'POST'])
 def chat(): 
     nuevaSala = ""
-    # inicioForm = InicioSesion()
-    # #login_form = forms.LoginForm(request.form)
-    # username = inicioForm.usuario.data
-    # mensaje_flash = 'Bienvenido {}'.format(username)
-    # flash(mensaje_flash)
 
     # metodo POST para validar la creacion de la nueva salida
     if request.method == 'POST':
@@ -139,9 +133,8 @@ def chat():
             print("Sala eliminada: ", sala)
             LISTA_SALAS.remove(sala)
 
-    user = User.query.all()
-	#print (user.usuario)  
-
+    # Instanciamos un objeto User para listar los usuarios en la BD
+    user = User.query.all() 
     #User.query.count()
 
     # El usuario debe estar autenticado en la sesion para tener acceso al chat

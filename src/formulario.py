@@ -13,21 +13,21 @@ from passlib.hash import pbkdf2_sha256
 from modelos import User
 
 #Funcion que se encarga de validar el inicio de sesion 
-def invalid_credentials(form, field):
+def validarUsuario(u, c):
     
-    usuario_entered = form.usuario.data
-    contrasena_entered = field.data
+    usuario_input = u.usuario.data
+    contrasena_input = c.data
 
     #Validamos si existe un usuario en la BD
-    user_object = User.query.filter_by(usuario=usuario_entered).first()
+    user_object = User.query.filter_by(usuario=usuario_input).first()
     if user_object is None:
-        raise ValidationError("Usuario o contraseña incorrecto")
+        raise ValidationError("El nombre de usuario es incorrecto. Intenta de nuevo")
 
     #si existe pasa al elif y valida si la contraseña no es correcta
-    elif not pbkdf2_sha256.verify(contrasena_entered, user_object.contrasena):
-        raise ValidationError("Usuario o Contraseña incorrecto")
+    elif not pbkdf2_sha256.verify(contrasena_input, user_object.contrasena):
+        raise ValidationError("La contraseña es incorrecta. Intenta de nuevo")
 
-#clase que recibe y controla la validacion del formulario de registro index.html: si el usuario ya existe, si las contraseñas son iguales y que no exceda los parametros establecidos 
+#clase que recibe y controla la validacion del formulario de registro.html: si el usuario ya existe, si las contraseñas son iguales y que no exceda los parametros establecidos 
 class Registro(FlaskForm):
     '''Registratio form'''
 
@@ -67,7 +67,7 @@ class Registro(FlaskForm):
         if user_object:
             raise ValidationError("El usuario ya existe. Elige otro nombre de usuario")
 
-# Clase que recibe lo digitado en el login.html y llama la funcion invalid_credentials para validar lo recibido
+# Clase que recibe lo digitado en el index.html y llama la funcion validarUsuario para validar lo recibido
 class InicioSesion(FlaskForm):
 
     usuario = StringField ('usuario_label',
@@ -75,7 +75,7 @@ class InicioSesion(FlaskForm):
 
     contrasena = PasswordField('contrasena_label',
          validators= [InputRequired(message="Contraseña requerida"),
-         invalid_credentials])
+         validarUsuario])
 
     boton_inicio = SubmitField('Iniciar Sesión')         
 
