@@ -1,3 +1,5 @@
+<!-- formulario de CHAT  -->
+
 {% from 'formulario.html' import displayField %}
 <!DOCTYPE html>
 <html lang="en">
@@ -40,40 +42,77 @@
         <div id="main-section">
             <nav id="sidebar">
                 <!-- titulo crear sala -->
-                <h2>MENU SALAS</h2>
+                <div id="menu">
+                    <h2>MENU CHAT</h2>
 
-                <form action="", method="POST">
-                    <p>
-                    <!-- caja de texto para crear nueva sala -->
-                        <input type="text" id="nueva_sala" class = "form-control input-sm" name="nueva_sala" placeholder="Escribe el nombre de la sala..."/><br>
-            
+                    <form action="" , method="POST">
+
+                        <!-- caja de texto para crear nueva sala -->
+                        <input type="text" id="nueva_sala" class="form-control input-sm" name="nueva_sala"
+                            placeholder="Nombre sala nueva..." /><br>
+
                         <div>
-                            <input type="submit" id="crear-sala" class="btn btn-outline-success" name="crear-sala" value="Crear sala" />
+                            <input type="submit" id="crear-sala" class="btn btn-outline-success" name="crear-sala"
+                                value="Crear sala" />
                         </div>
-                    </p>
-                    <p>
-                        {{ displayField(form.input_eliminar_sala, 'Escribe el nombre de la sala a eliminar', autocomplete="off") }}
+
+                        <p>
+                            {{ displayField(form.input_eliminar_sala, 'Nombre sala a eliminar...', autocomplete="off") }}
                         <div>
-                            {{ form.boton_eliminar_sala }}
+                            <script>
+                                document.querySelector('#input_eliminar_sala').value = '';
+                            </script>
+                            <!-- {{ form.boton_eliminar_sala }} -->
+                            <input type="submit" id="eliminarSala" class="btn btn-outline-success" name="eliminarSala"
+                                value="Eliminar sala" />
                         </div>
-                    </p>
-                </form> 
+                        </p>
+                    </form>
 
-                <!-- Mostrar salas y sala pricipal -->
-                <h2>Salas creadas</h2>
-                {% for room in rooms %}
-                <p class="seleccionar-sala">{{ room|title}}</p>
-                {% endfor %}
+                    <!-- Mostrar salas y sala pricipal -->
+                    <h3>Salas creadas </h3>
+                    <!-- <table class="table-striped"> -->
 
-                <div>
-                    <h2>MENU USUARIOS</h2>
-                    <table>
-                    {% for us in user %}
-                        <tr>
-                            <td>{{us.usuario}}</td>
-                        </tr>
+                    {% for room in rooms %}
+                    <!-- <tr>
+                                <td>
+                                    <img src="/static/img/salas.png"> 
+                                </td> -->
+                    <td> </td>
+                    <td>
+                        <p class="seleccionar-sala">{{ room|title}}</p>
+                    </td>
+                    <!-- </tr>     -->
                     {% endfor %}
-                    </table>
+
+                    <!-- </table> -->
+                    <div>
+                        <!-- Menu de usuarios -->
+                        <h3>Lista de usuarios</h3>
+
+                        <h4>Numero de usuarios: {{ nUser }}</h3>
+
+                            <center>
+                                <div>
+                                    <table class="table-striped">
+                                        <!-- imprimir todos los usuarios de la BD -->
+                                        {% for us in user %}
+                                        <tr>
+                                            <td>
+                                                <img src="/static/img/usuario.png">
+                                            </td>
+                                            <td> </td>
+                                            <td>
+                                                {{us.usuario}}
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+
+                                    </table>
+                                </div>
+                            </center>
+
+                    </div>
                 </div>
 
             </nav>
@@ -102,7 +141,7 @@
                 <div id="input-area" class="input-group mb-3">
                     <input type="text" class="form-control input-sm" id="nuevo-mensaje" placeholder="Escribe aquí"
                         autocomplete="off">
-                    <button type="button" class="btn btn-outline-success" id="enviar-mensaje">Enviar</button>
+                    <button type="button" class="btn btn-success" id="enviar-mensaje">Enviar</button>
                 </div>
             </div>
         </div>

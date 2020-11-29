@@ -3,6 +3,7 @@ __pycache__/
 flask_session/
 borradores.python
 borrador.html
+test_db.py
 
 
 
