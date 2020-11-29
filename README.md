@@ -1,2 +1,2 @@
 # proyecto-chat-python
-Aplicación Webchat con flask de python, websockets, SQLpostgres Heroku
+Aplicación Webchat cliente-servidor con flask de python, websockets, SQLpostgres Heroku
