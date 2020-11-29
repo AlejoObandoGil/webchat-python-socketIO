@@ -3,6 +3,7 @@
 # ------------------------------LIBRERIAS---------------------------------------
 
 # Principales: webApp, BD, cifrado hash, login de flask, websockets
+import os
 from flask import Flask, request, render_template, session, redirect, url_for, flash
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, login_user, current_user, login_required, logout_user
@@ -17,11 +18,11 @@ from formulario import *
 # -----------------------CONFIGURACION DEL SERVIDOR----------------------------
 
 app = Flask(__name__)
-app.secret_key = 'SECRET_KEY'
+app.secret_key = os.environ.get('SECRET')
 
 # Direccion de BD: postgres de heroku
 # usuario, contraseña, host, puerto, nombre de la BD
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://mciebhbvvwkyje:8c7c356e012a9348f9e5257b90e5bad7b0f60085da2f292420464b2edf0abace@ec2-52-5-176-53.compute-1.amazonaws.com:5432/dbor0jn7c62572'
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 # inicializar en BD
@@ -179,6 +180,4 @@ def leave(data):
 
 if __name__ == "__main__":
 
-    db.init_app(app)
-    socketio.run(app, debug=True)
-    # app.run(debug=True)
+    app.run()
