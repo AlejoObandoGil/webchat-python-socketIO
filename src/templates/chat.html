@@ -1,0 +1,164 @@
+<!-- formulario de CHAT  -->
+
+{% from 'formulario.html' import displayField %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>TerTulia</title>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+        integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <!-- CSS -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/chat.css') }}">
+
+</head>
+
+<body>
+    <!-- Background (Fondo) -->
+    <div class="wrapper">
+        <!-- Barra menu principal -->
+        <nav class="navbar navbar-expand-sm navbar-light fixed-top" style="background-color: rgb(37, 211, 102)">
+
+            <!-- Titulo -->
+            <div class="container-fluid">
+                <h1>Chat TertuliApp</h1>
+                <!-- Barra titulo y fondo -->
+                <div id="show-sidebar-button" class="cursor-pointer">
+                    <i class="fas fa-plus-circle "></i>
+                </div>
+                <!-- Boton cerrar sesion -->
+                <a href="{{ url_for('cerrar_sesion') }}" class="btn btn-info btn-lg">
+                    <span class="glyphicon glyphicon-log-out"></span> Cerrar Sesión
+                </a>
+            </div>
+        </nav>
+
+        <!-- Barra menu principal (sala y crear sala) -->
+        <div id="main-section">
+            <nav id="sidebar">
+                <!-- titulo crear sala -->
+                <div id="menu">
+                    <h2>MENU CHAT</h2>
+
+                    <form action="" , method="POST">
+
+                        <!-- caja de texto para crear nueva sala -->
+                        <input type="text" id="nueva_sala" class="form-control input-sm" name="nueva_sala"
+                            placeholder="Nombre sala nueva..." /><br>
+
+                        <div>
+                            <input type="submit" id="crear-sala" class="btn btn-outline-success" name="crear-sala"
+                                value="Crear sala" />
+                        </div>
+
+                        <p>
+                            {{ displayField(form.input_eliminar_sala, 'Nombre sala a eliminar...', autocomplete="off") }}
+                        <div>
+                            <script>
+                                document.querySelector('#input_eliminar_sala').value = '';
+                            </script>
+                            <!-- {{ form.boton_eliminar_sala }} -->
+                            <input type="submit" id="eliminarSala" class="btn btn-outline-success" name="eliminarSala"
+                                value="Eliminar sala" />
+                        </div>
+                        </p>
+                    </form>
+
+                    <!-- Mostrar salas y sala pricipal -->
+                    <h3>Salas creadas </h3>
+                    <!-- <table class="table-striped"> -->
+
+                    {% for room in rooms %}
+                    <!-- <tr>
+                                <td>
+                                    <img src="/static/img/salas.png"> 
+                                </td> -->
+                    <td> </td>
+                    <td>
+                        <p class="seleccionar-sala">{{ room|title}}</p>
+                    </td>
+                    <!-- </tr>     -->
+                    {% endfor %}
+
+                    <!-- </table> -->
+                    <div>
+                        <!-- Menu de usuarios -->
+                        <h3>Lista de usuarios</h3>
+
+                        <h4>Numero de usuarios: {{ nUser }}</h3>
+
+                            <center>
+                                <div>
+                                    <table class="table-striped">
+                                        <!-- imprimir todos los usuarios de la BD -->
+                                        {% for us in user %}
+                                        <tr>
+                                            <td>
+                                                <img src="/static/img/usuario.png">
+                                            </td>
+                                            <td> </td>
+                                            <td>
+                                                {{us.usuario}}
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+
+                                    </table>
+                                </div>
+                            </center>
+
+                    </div>
+                </div>
+
+            </nav>
+
+            <!-- Panel de mensajes  -->
+            <div id="rightside-pannel">
+                <!-- Mostrar mensajes -->
+                <div id="mostrar-mensajes">
+
+                    <!-- mensajes flash -->
+                    {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                    <ul>
+                        {% for message in messages %}
+                        <li>{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+                    {% endwith %}
+                    <!-- mensajes de usuario aqui abajo -->
+
+
+                </div>
+
+                <!-- Barra para escribir mensaje y boton de enviar mensaje -->
+                <div id="input-area" class="input-group mb-3">
+                    <input type="text" class="form-control input-sm" id="nuevo-mensaje" placeholder="Escribe aquí"
+                        autocomplete="off">
+                    <button type="button" class="btn btn-success" id="enviar-mensaje">Enviar</button>
+                </div>
+            </div>
+        </div>
+
+        <!--Obtener usuario-->
+        <script type="text/javascript">
+            const usuario = `{{usuario}}`;
+        </script>
+
+        <!-- Permite mostrar mensajes en tiempo real -->
+        <script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"
+            integrity="sha256-yr4fRk/GU1ehYJPAs8P4JlTgu0Hdsp4ZKrx8bDEDC3I=" crossorigin="anonymous"></script>
+
+        <!-- conexion con el cliente js -->
+        <script src="{{ url_for('static', filename='scripts/socketio.js')}}">
+        </script>
+
+</body>
+
+</html>

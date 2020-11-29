@@ -1,0 +1,31 @@
+<!-- formulario para inicio de sesion -->
+<!-- importamos el macro creado en formulario con la plantilla del input-->
+
+{% from 'formulario.html' import displayField %}
+{% extends "prelogin.html" %}
+
+{% block title %}Inicio de sesión{% endblock %}
+
+{% block content %}
+<center>
+    <h2>Inicio de Sesión</h2>
+</center>
+
+<form action="{{ url_for('index') }}" , method="POST">
+    {{ form.hidden_tag() }}
+    {{ displayField(form.usuario, 'Usuario', autocomplete="off", autofocus=true) }}
+    {{ displayField(form.contrasena, 'Contraseña') }}
+    <div class="form-group">
+        {{ form.boton_inicio}}
+    </div>
+    {{ form.csrf_token }}
+</form>
+
+<hr>
+
+<center>
+    <p>¿ No tienes cuenta ? <a href={{url_for('registro')}}>Regístrate</a></p>
+</center>
+
+<hr>
+{% endblock %}

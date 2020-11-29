@@ -1,0 +1,151 @@
+h1 {
+  color: #fffdfd;
+  width: 100%;
+  background: url('/static/img/Logo1.png')
+  no-repeat;
+  position: relative;
+  height: 40px;
+  background-position-x: 300px;
+}
+
+h2 {
+  color: #32d8b4;
+  margin-bottom: 20px;
+}
+h3 {
+  color: #32d8b4;
+  margin-bottom: 20px;
+  margin-top: 25px;
+}
+h4 {
+  color: #32d8b4;
+  margin-bottom: 20px;
+  margin-top:-10px;
+}
+
+
+/* background principal */
+.wrapper {
+  display: flex;
+}
+
+/* panel superior */
+#main-section {
+  overflow: hidden; 
+  width: 100%;
+}
+
+
+/* panel lateral - menu de salas */
+.cursor-pointer {
+  cursor: pointer;
+}
+
+#menu {
+  width: 300px;
+  height: 580px;
+  background-color: rgb(255, 255, 255);
+  overflow: scroll;
+}
+
+#sidebar {
+  background-color: rgb(255, 255, 255);
+  margin-top: 3em;
+  float: left; 
+  min-height: 94vh;
+  min-width: 52vh;
+  padding-left: 1em;
+  padding-top: 2.5em;
+}
+
+#sidebar p {
+  padding-left: 3em;
+  padding-right:2em;
+}
+
+#sidebar p:hover {
+  background-color: #32d8b4;
+  height: 35px;
+}
+
+#sidebar h4 {padding-left: 0.5em;}
+
+#sidebar.view-sidebar {display: none;}
+
+#show-sidebar-button {
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s, opacity 0.5s;
+  color: #335177;
+}
+
+#input-nueva-sala{
+  padding-left: 1em;
+  padding-right: 1em;
+  bottom: 0;
+}
+
+#crear-sala{
+  margin-left: 30px;
+  margin-right: 10px;
+  margin-top:-22px;
+  padding-left: 2em;
+  padding-right: 3.1em;
+  bottom: 0;
+}
+#eliminarSala{
+  margin-left: 30px;
+  margin-right: 10px;
+  margin-top: -8px;
+  padding-left: 2em;
+  padding-right: 2em;
+  bottom: 0;
+  margin-bottom: 10px;
+}
+
+
+/* panel del chat */
+#rightside-pannel {
+  overflow: hidden; 
+  background-color: rgb(255, 255, 255);
+  margin-top: -1em;
+}
+
+#mostrar-mensajes {
+  background-image: url("/static/img/fondo_chat.jpg");
+  margin-top: 5em;
+  min-height: 82vh;
+  max-height: 82vh;
+  overflow-y: auto;
+}
+
+/* muestra la cadena de mensaje del usuario */
+#mostrar-mensajes p{
+  margin-left: 40px;
+  margin-right: 10px;
+  margin-top: 20px;
+  background-color: #ffffff;
+  border-radius: 20px;
+  border-style: outset;
+  border-width: 3px;
+  width: fit-content;
+}
+
+
+/* Panel para escribir mensaje de usuario */
+input[type=text]:focus{
+  border-color: #32d8b4;
+  box-shadow: 0px 1px 1px rgb(33, 179, 98) inset, 0px 0px 10px #32d8b4;
+}
+
+#input-area {
+  padding-left: 1em;
+  padding-right: 1em;
+  margin-top: 5px;
+  margin-bottom: 2px;
+}
+
+@keyframes fadeIn {
+0% {opacity: 0;}
+100% {opacity: 1;}
+}
