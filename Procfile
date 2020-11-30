@@ -1,1 +1,1 @@
-web:gunicorn -k geventwebsocket.gunicorn.workers.GeventWebSocketWorker -w 1 src/app:app
+web:gunicorn src/app.py
