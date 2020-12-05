@@ -1,10 +1,10 @@
-//Cliente javascript: encargado de la conexion websocket con el servidor python 
+//Cliente javascript: encargado de la conexion websocket con el servidor python
 
 // ------------------------CONFIGURACION DEL CLIENTE----------------------------
 
 // Iniciando conexion 
 document.addEventListener('DOMContentLoaded', () => {
-    var socket = io();
+    var socket = io.connect(location.protocol + '//' + document.domain + ':' + location.port);
 
     // sala principal como default
     let sala = ("Principal");
@@ -53,7 +53,7 @@ document.addEventListener('DOMContentLoaded', () => {
             let nuevaSala = p.innerHTML;
             // SI es la misma salsa imprime mensaje
             if (nuevaSala == sala) {
-                msg = `Ya estas en la sala ${sala}.`
+                msg = `Ya estas en la sala ${sala}.`;
                 printSysMsg(msg);
                 //si no ingresa  ala nueva sala y sale de la anterior, luego actualizamos sala
             } else {

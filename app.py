@@ -32,13 +32,19 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 db = SQLAlchemy(app)
 #print("\n-conexion a BD habilitada --> heroku-postgres ")
 
-# Inicializar websockets
-socketio = SocketIO(app)
-#print("-websockets habilidatos \n")
-
 # Inicializar controlador de sesion
 login = LoginManager(app)
 login.init_app(app)
+
+# Ruta que recarga el cliente actual conectado
+@login.user_loader
+def cargar_usuario(id):
+    return User.query.get(int(id))
+
+# Inicializar websockets
+socketio = SocketIO(app, manage_session=False)
+#print("-websockets habilidatos \n")
+
 
 # Lista donde almacenaremos las salas creadas, por defecto el servidor incia con 1 sola sala
 LISTA_SALAS = ["Principal"]
@@ -100,12 +106,6 @@ def registro():
         return redirect(url_for('index'))
     # Si no hay exito regresa a la pagina de registro
     return render_template("registro.html", form=registroForm)
-
-
-# Ruta que recarga el cliente actual conectado
-@login.user_loader
-def cargar_usuario(id):
-    return User.query.get(int(id))
 
 
  # Ruta para cerrar sesion
@@ -184,5 +184,5 @@ def leave(data):
 if __name__ == "__main__":
 
     # app.run(debug=True)
-    db.init_app(app)
-    socketio.run(app, debug=True)
+    # db.init_app(app)
+    socketio.run(app)
