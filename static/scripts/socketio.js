@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Probando los sockets
     socket.on('connect', () => {
-        socket.send("cliente websocket conectado...");
+        socket.send("cliente websocket conectado y melo mi so...");
     });
 
     // ----------------------CONTROL DE MENSAJES--------------------------------
@@ -64,7 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Funcion para salir de un sala
+    // Funcion para salir de una sala
     function leaveRoom(sala) {
         socket.emit('leave', { 'usuario': usuario, 'room': sala });
     }
