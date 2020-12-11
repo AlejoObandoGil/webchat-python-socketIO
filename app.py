@@ -25,11 +25,14 @@ app = Flask(__name__)
 
 PUERTO = 5000
 
-app.secret_key = "SECRET"
+app.secret_key = os.environ.get('SECRET')
+# app.secret_key = "SECRET"
 
 # Direccion de BD: postgres de heroku
-# usuario, contraseña, host, puerto, nombre de la BD
-app.config['SQLALCHEMY_DATABASE_URI'] = "postgres://odzwjrzlprudil:8317735ed8c2403e044449e353a227dbc9ca3a0afc17ba794f37cfc40420558d@ec2-54-161-150-170.compute-1.amazonaws.com:5432/d57q5bus76ls43"
+# Usuario, contraseña, host, puerto, nombre de la BD
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
+# "postgres://odzwjrzlprudil:8317735ed8c2403e044449e353a227dbc9ca3a0afc17ba794f37cfc40420558d@ec2-54-161-150-170.compute-1.amazonaws.com:5432/d57q5bus76ls43"
+
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 # inicializar en BD
@@ -218,6 +221,7 @@ hiloChat.start()
 if __name__ == "__main__":
   
     # db.init_app(app)
+    # app.run(debug=True)
     socketio.run(app, debug=True)
 
 
