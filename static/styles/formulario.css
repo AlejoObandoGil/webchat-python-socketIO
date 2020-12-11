@@ -19,8 +19,8 @@ img {
 
 /* formualario */
 input[type='text']:focus, input[type='password']:focus {
-    border-color: #4473f3;
-    box-shadow: 0px 0px 10px, 0px 0px 5px #4473f3;
+    border-color: #32d8b4;
+    box-shadow: 0px 1px 1px rgb(33, 179, 98) inset, 0px 0px 10px #32d8b4;
 }
 
 form {
@@ -29,6 +29,12 @@ form {
     margin: 0 auto; 
 }
 
+footer {
+	background-color:white;
+	height: 50%;
+    color: darkgray;
+    padding: 15px;
+}
 
 /* panel superior titulo y logo */
 .panel-superior{    
