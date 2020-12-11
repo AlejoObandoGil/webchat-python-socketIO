@@ -199,17 +199,17 @@ def leave(data):
 hiloInicioSesion = threading.Thread(target=index)
 hiloCerrarSesion = threading.Thread(target=cerrar_sesion)
 hiloRegistro = threading.Thread(target=registro)
-hiloChat = threading.Thread(target=chat)
+
 # Ligado al hilo principal
 hiloInicioSesion.daemon = True 
 hiloCerrarSesion.daemon = True 
 hiloRegistro.daemon = True     
-hiloChat.daemon = True                                           
+                                          
 # Iniciar hilo
 hiloInicioSesion.start() 
 hiloCerrarSesion.start() 
 hiloRegistro.start() 
-hiloChat.start()
+
 # Iniciar hilos antes que el hilo principal
 # hiloInicioSesion.join()
 # hiloCerrarSesion.join()   
