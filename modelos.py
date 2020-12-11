@@ -1,4 +1,4 @@
-# Modelo de la palicacion para crear la BD SQLPostgres  de Heroku con SQLAlchemy 
+# Modelo de la aplicacion para crear la BD SQLPostgres  de Heroku con SQLAlchemy 
 
 # Librerias
 from flask import Flask, request, session
