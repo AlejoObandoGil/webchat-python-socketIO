@@ -223,7 +223,7 @@ if __name__ == "__main__":
   
     # db.init_app(app)
     # app.run(debug=True)
-    socketio.run(app, port=PUERTO debug=True)
+    socketio.run(app, port=PUERTO, debug=True)
 
 
 
