@@ -23,7 +23,8 @@ from formulario import *
 
 app = Flask(__name__)
 
-PUERTO = 5000
+PUERTO = os.environ.get('PUERTO')
+# PUERTO = 5000
 
 app.secret_key = os.environ.get('SECRET')
 # app.secret_key = "SECRET"
@@ -222,7 +223,7 @@ if __name__ == "__main__":
   
     # db.init_app(app)
     # app.run(debug=True)
-    socketio.run(app, debug=True)
+    socketio.run(app, port=PUERTO debug=True)
 
 
 
